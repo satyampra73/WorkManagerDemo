@@ -43,7 +43,15 @@ class MainActivity : AppCompatActivity() {
             .setInputData(data)
             .build()
 
-        workManager.enqueue(uploadRequest)
+        val filteringRequest = OneTimeWorkRequest.Builder(FilteringWorker::class.java).build()
+        val compressingRequest = OneTimeWorkRequest.Builder(FilteringWorker::class.java).build()
+
+        workManager
+            .beginWith(filteringRequest)
+            .then(compressingRequest)
+            .then(uploadRequest)
+            .enqueue()
+
         workManager.getWorkInfoByIdLiveData(uploadRequest.id).observe(this , Observer{
             textView.text = it.state.toString()
             if(it.state.isFinished){
