@@ -14,7 +14,7 @@ class FilteringWorker(context: Context, params: WorkerParameters) : Worker(conte
     override fun doWork(): Result {
         try {
 
-            for (i in 0 until 300) {
+            for (i in 0 until 1000) {
                 Log.i("MyTag", "Filtering : $i")
             }
 
